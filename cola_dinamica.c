@@ -39,7 +39,7 @@ int main()
     enqueue(q,1);
     enqueue(q,2);
     enqueue(q,3);
-
+    printf("juan saca los packs\n");
     printf("%d \n", dequeue(q));
     printf("%d \n", dequeue(q));
     printf("%d \n", dequeue(q));
