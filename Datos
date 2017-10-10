@@ -1,2 +1,250 @@
-Chavez Pacheco Juan Alberto
-314296599
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+
+typedef struct nodo{
+    char dato[30];
+    struct nodo *sig;
+
+}nodo;
+
+nodo* primero = NULL;
+nodo* ultimo = NULL;
+
+void insertarNodo();
+void mostrarLista();
+void buscar();
+void eliminar();
+void reproduciendo();
+
+int main(){
+
+    int opc, num,i;
+    char opc2;
+
+    do{
+
+    printf("\t****MENU****\n");
+    printf("1.Insertar una cancion.\n");
+    printf("2.Eliminar una cancion.\n");
+    printf("3.Buscar cancion\n");
+    printf("4.Reproduciendo.\n");
+    printf("\n\n");
+    printf("Elija una opcion: ");
+    scanf("%i", &opc);
+    printf("\n");
+
+    switch(opc)
+    {
+    case 1:
+        insertarNodo();
+        printf("\n\nLas pistas en la lista son:");
+        mostrarLista();
+        break;
+    case 2:
+        eliminar();
+        mostrarLista();
+        break;
+
+    case 3:
+        buscar();
+        break;
+    case 4:
+        reproduciendo();
+        break;
+
+    default:
+        printf("Opcion invalida");
+        break;
+    }
+
+    printf("\n\nSi desea continuar presione 's' o 'S', de lo contrario preione enter: ");
+    fflush(stdin);
+    scanf("%c", &opc2);
+
+    system("cls");
+
+    }while(opc2 == 's' || opc2 == 'S');
+
+
+
+return 0;
+}
+
+void insertarNodo(){
+    nodo* nuevo = (nodo*)malloc(sizeof(nodo));
+    printf("Digite el nombre de la cancion que desea insertar: ");
+    fflush(stdin);
+    gets(nuevo->dato);
+
+    if(primero == NULL)
+    {
+        primero = nuevo;
+        primero -> sig = NULL;
+        ultimo = nuevo;
+    }
+    else
+    {
+        ultimo -> sig =  nuevo;
+        nuevo -> sig = NULL;
+        ultimo = nuevo;
+    }
+
+}
+
+void mostrarLista(){
+    nodo* nuevo = (nodo*)malloc(sizeof(nodo));
+    nuevo = primero;
+    if(primero != NULL)
+    {
+        while(nuevo != NULL)
+        {
+            printf("\n%s", nuevo->dato);
+            nuevo = nuevo->sig;
+        }
+    }
+    else
+    {
+        printf("\nLa lista esta vacia.");
+    }
+
+
+}
+
+void buscar(){
+
+        nodo* nuevo = (nodo*)malloc(sizeof(nodo));
+        nuevo = primero;
+        char nodoBuscado[30];
+        int encontrado = 0;
+
+        printf("\nDigite la cancion que desea buscar: ");
+        fflush(stdin);
+        gets(nodoBuscado);
+
+        if(primero != NULL)
+        {
+            while(nuevo != NULL && encontrado != 1)
+            {
+
+                if(strcmp(nuevo->dato,nodoBuscado)== 0)
+                {
+                    printf("\nEl elemento <<%s>> ha sido encontrado", nodoBuscado);
+                    encontrado = 1;
+                }
+
+                nuevo = nuevo->sig;
+            }
+            if (encontrado == 0)
+            {
+                printf("\nEl elemento <<%s>> no fue encontrado", nodoBuscado);
+            }
+        }
+        else
+        {
+            printf("\nLa lista esta vacia.");
+        }
+
+
+}
+void eliminar()
+{
+    nodo * nuevo = (nodo*)malloc(sizeof(nodo));
+    nuevo = primero;
+    nodo* anterior = (nodo*)malloc(sizeof(nodo));
+    anterior = NULL;
+    char nodoaBuscar[30];
+    int encontrado = 0;
+    printf("Digite el elemento que desea eliminar: ");
+    fflush(stdin);
+    gets(nodoaBuscar);
+    if(primero != NULL);
+    {
+        while(nuevo != NULL && encontrado != 1)
+        {
+            if(strcmp(nuevo->dato,nodoaBuscar) == 0)
+            {
+
+                if(nuevo == primero)
+                {
+                    primero = primero->sig;
+                }
+                else if(nuevo == ultimo)
+                {
+                    anterior->sig = NULL;
+                    ultimo = anterior;
+                }
+                else
+                {
+                    anterior->sig = nuevo->sig;
+                }
+                printf("\nEl elemento fue eliminado");
+                encontrado = 1;
+            }
+            anterior = nuevo;
+            nuevo = nuevo->sig;
+        }
+        if(encontrado == 0)
+        {
+            printf("\nEl elemento no fue encontrado.\n\n");
+        }
+        else
+        {
+            free(anterior);
+        }
+
+    }
+}
+
+
+void reproduciendo(){
+    int opc3;
+    nodo* nuevo = (nodo*)malloc(sizeof(nodo));
+    nuevo = primero;
+    if(primero != NULL)
+    {
+
+            printf("\nEn reproduccion: %s", nuevo->dato);
+            //nuevo = nuevo->sig;
+
+    }
+    else
+    {
+        printf("\nLa lista esta vacia.");
+    }
+
+    do
+    {
+
+
+    printf("\n\nElija una opcion.\n");
+    printf("\n1.Siguiente. ");
+    printf("\n2.salir. ");
+    scanf("%i", &opc3);
+
+
+    switch(opc3)
+    {
+    case 1:
+        if(nuevo != NULL)
+        {
+            nuevo = nuevo->sig;
+            printf("\nEn reproduccion: %s", nuevo->dato);
+        }
+        else
+        {
+            if(nuevo == NULL)
+                nuevo = primero;
+            printf("\nEn reproduccion: %s", nuevo->dato);
+        }
+        break;
+
+    }
+
+    }while(opc3==1);
+
+
+}
+
+
